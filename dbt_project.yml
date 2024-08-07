@@ -2,7 +2,7 @@
 # Name your project! Project names should contain only lowercase characters
 # and underscores. A good package name should reflect your organization's
 # name or the intended use of these models
-name: 'dbt-ebanx'
+name: 'dbt_ebanx'
 version: '1.0.0'
 config-version: 2
 
@@ -36,5 +36,18 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 
 models:
-  dbt-ebanx:
+  dbt_ebanx:
+    #Aplicado para tudo dentro da pasta dbt_ebanx/bronze
+    bronze:
+      +materialized: view
+      +schema: bronze
+    #Aplicado para tudo dentro da pasta dbt_ebanx/silver
+    silver:
+      +materialized: incremental
+      +schema: silver
+    #Aplicado para tudo dentro da pasta dbt_ebanx/gold
+    gold:
+      +materialized: table
+      +schema: gold
+
     # Applies to all files under models/example/
