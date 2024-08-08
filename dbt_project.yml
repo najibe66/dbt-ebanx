@@ -39,11 +39,11 @@ models:
   dbt_ebanx:
     #Aplicado para tudo dentro da pasta dbt_ebanx/bronze
     bronze:
-      +materialized: view
+      +materialized: incremental
       +schema: bronze
     #Aplicado para tudo dentro da pasta dbt_ebanx/silver
     silver:
-      +materialized: incremental
+      +materialized: view
       +schema: silver
     #Aplicado para tudo dentro da pasta dbt_ebanx/gold
     gold:
