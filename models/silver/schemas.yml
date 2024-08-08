@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: clientes_silver
+    description: "Tabela de clientes do schema bronze, com transformações"
+    columns:
+      - name: id
+        description: "Chave primária da tabela (id do cliente)"
+        tests:
+          - unique
+          - not_null
+  - name: compras_silver
+    description: "Tabela de compras do schema silver, com transformações"
+    columns:
+      - name: id
+        description: "Chave primária da tabela (id da compra)"
+        tests:
+          - unique
+          - not_null
+      - name: id_cliente
+        description: "ID do cliente que realizou a compra"
+        tests:
+          - not_null
+  - name: cambio_silver
+    description: "Tabela de cambio do schema silver, com transformações"
+    columns:
+      - name: id_mes
+        description: "Chave primária da tabela (id do mes)"
+        tests:
+          - unique
+          - not_null
+      - name: mes
+        description: "Mês que dá origem ao id_mes"
+        tests:
+          - not_null
+          - unique

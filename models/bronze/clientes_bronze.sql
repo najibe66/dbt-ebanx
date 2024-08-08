@@ -1,8 +1,7 @@
-{{
-    config(
-        unique_key = 'id'
-    )
-}}
+{{ config(
+    materialized='incremental',
+    unique_key='id'
+) }}
 SELECT
     id,
     name,
@@ -10,6 +9,7 @@ SELECT
     `data nascimento`,
     updated_at
 FROM `case-ebanx.raw.clientes_raw`
-{% if is_incremental() %}
-WHERE updated_at > (SELECT MAX(updated_at) FROM {{ this }})
-{% endif %}
+    {% if is_incremental() %}
+    WHERE updated_at > (SELECT MAX(updated_at) FROM {{ this }})
+    {% endif %}
+
