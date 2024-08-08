@@ -1,3 +1,15 @@
+WITH data_atualizacao AS (
+    SELECT
+        id,
+        name,
+        pais,
+        `data nascimento`,
+        updated_at,
+        ROW_NUMBER() OVER (PARTITION BY id ORDER BY updated_at DESC) AS data_atualizacao_mais_recente
+    FROM {{ ref('clientes_bronze') }}
+)
+
+
 SELECT
     COALESCE(CAST(id AS STRING), 'nao informado')                                 AS id,
     COALESCE(REGEXP_REPLACE(NORMALIZE(`name`, NFD), r'\pM', ''), 'nao informado') AS name,
@@ -12,5 +24,6 @@ SELECT
         ELSE NULL
     END                                                                          AS data_nascimento,
     SAFE_CAST(updated_at AS TIMESTAMP)                                           AS updated_at
-FROM {{ ref('clientes_bronze') }}
+FROM data_atualizacao
+WHERE data_atualizacao_mais_recente = 1
 
