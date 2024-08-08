@@ -1,8 +1,3 @@
-{{
-  config(
-    unique_key='id' 
-  )
-}}
 SELECT
     COALESCE(CAST(id AS STRING), 'nao informado')                                 AS id,
     COALESCE(REGEXP_REPLACE(NORMALIZE(`name`, NFD), r'\pM', ''), 'nao informado') AS name,
@@ -18,6 +13,4 @@ SELECT
     END                                                                          AS data_nascimento,
     SAFE_CAST(updated_at AS TIMESTAMP)                                           AS updated_at
 FROM {{ ref('clientes_bronze') }}
-{% if is_incremental() %}
-WHERE updated_at > (SELECT MAX(updated_at) FROM {{ this }})
-{% endif %}
+
